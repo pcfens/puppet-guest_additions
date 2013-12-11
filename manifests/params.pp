@@ -5,4 +5,6 @@ class guest_additions::params {
   $mount_point  = '/media/cdrom'
 
   $platform = $::virtual
+
+  $remove_iso = true
 }

@@ -3,6 +3,6 @@ class guest_additions::virtualbox {
     require => Exec['mount-cd'],
     creates => '/etc/init.d/vboxadd',
     returns => [0, 1],
-    before  => Exec['unmount and remove'],
+    before  => Exec['unmount'],
   }
 }

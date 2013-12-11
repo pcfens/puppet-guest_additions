@@ -3,6 +3,7 @@ class guest_additions (
   $cd_device    = $guest_additions::params::cd_device,
   $mount_point  = $guest_additions::params::mount_point,
   $platform     = $guest_additions::params::platform,
+  $remove_iso   = $guest_additions::params::remove_iso,
 ) inherits guest_additions::params {
 
 

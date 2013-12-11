@@ -22,6 +22,7 @@ Other optional parameters are:
  - cd_device (must be used when cd_image is absent)
  - mount_point (by default this is /media/cdrom)
  - platform (by default this is auto-filled by detecting the hypervisor)
+ - remove_iso (if installing from an ISO file, delete it when finished - Default: true)
 
 ## Notes
 
