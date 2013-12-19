@@ -1,4 +1,5 @@
 class guest_additions (
+  $use_repos    = $guest_additions::params::use_repos,
   $cd_image     = $guest_additions::params::cd_image,
   $cd_device    = $guest_additions::params::cd_device,
   $mount_point  = $guest_additions::params::mount_point,
@@ -6,13 +7,18 @@ class guest_additions (
   $remove_iso   = $guest_additions::params::remove_iso,
 ) inherits guest_additions::params {
 
-
-  if $cd_image {
+  if $use_repos and ($platform == 'vmware') {
+    if $::osfamily == 'Debian' {
+      class { 'apt': }
+    }
+    # Installing from repos
+  } elsif $cd_image {
     file { "$guest_additions::mount_point":
       ensure => directory,
     }
     exec { 'mount-cd':
       command => "/bin/mount -o loop $guest_additions::cd_image $guest_additions::mount_point",
+      before  => Class["guest_additions::${platform}"],
       require => File["$guest_additions::mount_point"],
     } 
     exec { 'unmount':
@@ -29,6 +35,7 @@ class guest_additions (
     exec { 'mount-cd':
       command => "/bin/mount $guest_additions::cd_device $guest_additions::mount_point",
       require => File["$guest_additions::mount_point"],
+      before  => Class["guest_additions::${platform}"],
     } 
     exec { 'unmount':
       command => "/bin/umount $guest_additions::mount_point",
@@ -39,19 +46,5 @@ class guest_additions (
     }
   }
 
-
-  if $platform == 'vmware' {
-    class { 'guest_additions::vmware':
-      require => Exec['mount-cd'],
-    }
-  }
-  elsif $guest_additions::platform == 'virtualbox' {
-    class { 'guest_additions::virtualbox':
-      require => Exec['mount-cd'],
-    }
-  } else {
-    notify { 'no-additions':
-      message => "No automatically installable guest additions for $guest_additions::platform",
-    }
-  }
+  class { "guest_additions::${platform}": }
 }

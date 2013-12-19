@@ -7,4 +7,9 @@ class guest_additions::params {
   $platform = $::virtual
 
   $remove_iso = true
+
+  $use_repos = $platform ? {
+    'vmware' => true,
+    default  => false,
+  }
 }
