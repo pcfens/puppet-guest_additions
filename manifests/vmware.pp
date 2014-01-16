@@ -36,10 +36,11 @@ class guest_additions::vmware {
       creates => '/etc/vmware-tools',
     }
 
-    exec { 'remove-tmp-vmware':
+    file { '/tmp/vmware-tools-distrib':
+      ensure => absent,
       require => Exec['install-vmware-tools'],
-      command => '/bin/rm -Rf /tmp/vmware-tools-distrib',
     }
+
   } else {
     notice("No available way to install guest additons on ${platform}.")
   }
