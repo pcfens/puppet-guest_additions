@@ -24,7 +24,7 @@ class guest_additions::vmware {
     }
   } elsif $guest_additions::use_cd {
     exec { 'extract-tools':
-      command => "/bin/tar -zxf $guest_additions::mount_point/*.tar.gz -C /tmp",
+      command => "/bin/tar -zxf ${guest_additions::mount_point}/*.tar.gz -C /tmp",
       require => Exec['mount-cd'],
       creates => '/tmp/vmware-tools-distrib',
       before  => Exec['unmount'],
@@ -37,12 +37,12 @@ class guest_additions::vmware {
     }
 
     file { '/tmp/vmware-tools-distrib':
-      ensure => absent,
+      ensure  => absent,
       require => Exec['install-vmware-tools'],
     }
 
   } else {
-    notice("No available way to install guest additons on ${platform}.")
+    notice("No available way to install guest additons on ${guest_additions::platform}.")
   }
 
 }
