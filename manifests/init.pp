@@ -5,9 +5,8 @@ class guest_additions (
   $mount_point  = $guest_additions::params::mount_point,
   $platform     = $guest_additions::params::platform,
   $remove_iso   = $guest_additions::params::remove_iso,
-) {
+) inherits guest_additions::params {
 
-  include guest_additions::params
 
   if $use_repos and ($platform == 'vmware') {
     if $::osfamily == 'Debian' {
