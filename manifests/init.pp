@@ -7,6 +7,10 @@ class guest_additions (
   $remove_iso   = $guest_additions::params::remove_iso,
 ) inherits guest_additions::params {
 
+  package { ['dkms', 'build-essential', 'linux-headers-generic']:
+    ensure => installed,
+    before  => Class["guest_additions::${platform}"],
+  }
 
   if $use_repos and ($platform == 'vmware') {
     if $::osfamily == 'Debian' {
