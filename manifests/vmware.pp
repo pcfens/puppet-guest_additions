@@ -2,7 +2,7 @@ class guest_additions::vmware {
   if $guest_additions::use_repos {
     if $::osfamily == 'Debian' {
       apt::source { 'vmware-osps':
-        location    => 'http://packages.vmware.com/tools/esx/latest/ubuntu',
+        location    => 'http://packages.vmware.com/tools/esx/5.1latest/ubuntu',
         release     => 'precise',
         repos       => 'main',
         key         => 'C0B5E0AB66FD4949',
@@ -13,7 +13,7 @@ class guest_additions::vmware {
     } elsif $::osfamily == 'RedHat' {
       package { 'vmware-tools-repo-RHEL6':
         ensure   => present,
-        source   => 'http://packages.vmware.com/tools/esx/latest/repos/vmware-tools-repo-RHEL6-9.0.5-1.el6.x86_64.rpm',
+        source   => 'http://packages.vmware.com/tools/esx/5.1latest/repos/vmware-tools-repo-RHEL6-9.0.10-1.el6.x86_64.rpm',
         provider => 'rpm',
         before   => Package['vmware-tools-esx'],
       }
